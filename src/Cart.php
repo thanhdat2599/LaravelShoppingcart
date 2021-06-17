@@ -73,7 +73,7 @@ class Cart
     /**
      * Cart constructor.
      *
-     * @param \Illuminate\Session\SessionManager      $session
+     * @param \Illuminate\Session\SessionManager $session
      * @param \Illuminate\Contracts\Events\Dispatcher $events
      */
     public function __construct(SessionManager $session, Dispatcher $events)
@@ -101,7 +101,7 @@ class Cart
             $instance = $instance->getInstanceIdentifier();
         }
 
-        $this->instance = 'cart.'.$instance;
+        $this->instance = 'cart.' . $instance;
 
         return $this;
     }
@@ -119,12 +119,12 @@ class Cart
     /**
      * Add an item to the cart.
      *
-     * @param mixed     $id
-     * @param mixed     $name
+     * @param mixed $id
+     * @param mixed $name
      * @param int|float $qty
-     * @param float     $price
-     * @param float     $weight
-     * @param array     $options
+     * @param float $price
+     * @param float $weight
+     * @param array $options
      *
      * @return \Gloudemans\Shoppingcart\CartItem
      */
@@ -144,10 +144,10 @@ class Cart
     /**
      * Add an item to the cart.
      *
-     * @param \Gloudemans\Shoppingcart\CartItem $item          Item to add to the Cart
-     * @param bool                              $keepDiscount  Keep the discount rate of the Item
-     * @param bool                              $keepTax       Keep the Tax rate of the Item
-     * @param bool                              $dispatchEvent
+     * @param \Gloudemans\Shoppingcart\CartItem $item Item to add to the Cart
+     * @param bool $keepDiscount Keep the discount rate of the Item
+     * @param bool $keepTax Keep the Tax rate of the Item
+     * @param bool $dispatchEvent
      *
      * @return \Gloudemans\Shoppingcart\CartItem The CartItem
      */
@@ -186,7 +186,7 @@ class Cart
      * Update the cart item with the given rowId.
      *
      * @param string $rowId
-     * @param mixed  $qty
+     * @param mixed $qty
      *
      * @return \Gloudemans\Shoppingcart\CartItem
      */
@@ -338,7 +338,7 @@ class Cart
     /**
      * Get the total price of the items in the cart as formatted string.
      *
-     * @param int    $decimals
+     * @param int $decimals
      * @param string $decimalPoint
      * @param string $thousandSeperator
      *
@@ -364,7 +364,7 @@ class Cart
     /**
      * Get the total tax of the items in the cart as formatted string.
      *
-     * @param int    $decimals
+     * @param int $decimals
      * @param string $decimalPoint
      * @param string $thousandSeperator
      *
@@ -390,7 +390,7 @@ class Cart
     /**
      * Get the subtotal (total - tax) of the items in the cart as formatted string.
      *
-     * @param int    $decimals
+     * @param int $decimals
      * @param string $decimalPoint
      * @param string $thousandSeperator
      *
@@ -416,7 +416,7 @@ class Cart
     /**
      * Get the discount of the items in the cart as formatted string.
      *
-     * @param int    $decimals
+     * @param int $decimals
      * @param string $decimalPoint
      * @param string $thousandSeperator
      *
@@ -442,7 +442,7 @@ class Cart
     /**
      * Get the price of the items in the cart as formatted string.
      *
-     * @param int    $decimals
+     * @param int $decimals
      * @param string $decimalPoint
      * @param string $thousandSeperator
      *
@@ -468,7 +468,7 @@ class Cart
     /**
      * Get the price of the items in the cart as formatted string.
      *
-     * @param int    $decimals
+     * @param int $decimals
      * @param string $decimalPoint
      * @param string $thousandSeperator
      *
@@ -494,7 +494,7 @@ class Cart
     /**
      * Get the total weight of the items in the cart.
      *
-     * @param int    $decimals
+     * @param int $decimals
      * @param string $decimalPoint
      * @param string $thousandSeperator
      *
@@ -521,7 +521,7 @@ class Cart
      * Associate the cart item with the given rowId with the given model.
      *
      * @param string $rowId
-     * @param mixed  $model
+     * @param mixed $model
      *
      * @return void
      */
@@ -545,7 +545,7 @@ class Cart
     /**
      * Set the tax rate for the cart item with the given rowId.
      *
-     * @param string    $rowId
+     * @param string $rowId
      * @param int|float $taxRate
      *
      * @return void
@@ -584,7 +584,7 @@ class Cart
     /**
      * Set the discount rate for the cart item with the given rowId.
      *
-     * @param string    $rowId
+     * @param string $rowId
      * @param int|float $taxRate
      *
      * @return void
@@ -645,8 +645,8 @@ class Cart
 
         $this->getConnection()->table($this->getTableName())->insert([
             'identifier' => $identifier,
-            'instance'   => $instance,
-            'content'    => serialize($content),
+            'instance' => $instance,
+            'content' => serialize($content),
             'created_at' => $this->createdAt ?: Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
@@ -674,7 +674,7 @@ class Cart
         }
 
         $stored = $this->getConnection()->table($this->getTableName())
-            ->where(['identifier'=> $identifier, 'instance' => $currentInstance])->first();
+            ->where(['identifier' => $identifier, 'instance' => $currentInstance])->first();
 
         $storedContent = unserialize(data_get($stored, 'content'));
 
@@ -725,10 +725,10 @@ class Cart
     /**
      * Merges the contents of another cart into this cart.
      *
-     * @param mixed $identifier   Identifier of the Cart to merge with.
-     * @param bool  $keepDiscount Keep the discount of the CartItems.
-     * @param bool  $keepTax      Keep the tax of the CartItems.
-     * @param bool  $dispatchAdd  Flag to dispatch the add events.
+     * @param mixed $identifier Identifier of the Cart to merge with.
+     * @param bool $keepDiscount Keep the discount of the CartItems.
+     * @param bool $keepTax Keep the tax of the CartItems.
+     * @param bool $dispatchAdd Flag to dispatch the add events.
      *
      * @return bool
      */
@@ -739,7 +739,7 @@ class Cart
         }
 
         $stored = $this->getConnection()->table($this->getTableName())
-            ->where(['identifier'=> $identifier, 'instance'=> $instance])->first();
+            ->where(['identifier' => $identifier, 'instance' => $instance])->first();
 
         $storedContent = unserialize($stored->content);
 
@@ -790,12 +790,12 @@ class Cart
     /**
      * Create a new CartItem from the supplied attributes.
      *
-     * @param mixed     $id
-     * @param mixed     $name
+     * @param mixed $id
+     * @param mixed $name
      * @param int|float $qty
-     * @param float     $price
-     * @param float     $weight
-     * @param array     $options
+     * @param float $price
+     * @param float $weight
+     * @param array $options
      *
      * @return \Gloudemans\Shoppingcart\CartItem
      */
@@ -839,7 +839,7 @@ class Cart
      */
     private function storedCartInstanceWithIdentifierExists($instance, $identifier)
     {
-        return $this->getConnection()->table($this->getTableName())->where(['identifier' => $identifier, 'instance'=> $instance])->exists();
+        return $this->getConnection()->table($this->getTableName())->where(['identifier' => $identifier, 'instance' => $instance])->exists();
     }
 
     /**
