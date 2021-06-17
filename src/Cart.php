@@ -71,6 +71,20 @@ class Cart
     private $taxRate = 0;
 
     /**
+     * Defines the other fee.
+     *
+     * @var float
+     */
+    private $otherFee = 0;
+
+    /**
+     * Defines the shipping fee.
+     *
+     * @var float
+     */
+    private $shippingFee = 0;
+
+    /**
      * Cart constructor.
      *
      * @param \Illuminate\Session\SessionManager $session
@@ -331,8 +345,8 @@ class Cart
     public function totalFloat()
     {
         return $this->getContent()->reduce(function ($total, CartItem $cartItem) {
-            return $total + $cartItem->total;
-        }, 0);
+                return $total + $cartItem->total;
+            }, 0) - $this->shippingFee - $this->otherFee;
     }
 
     /**
@@ -411,6 +425,26 @@ class Cart
         return $this->getContent()->reduce(function ($discount, CartItem $cartItem) {
             return $discount + $cartItem->discountTotal;
         }, 0);
+    }
+
+    /**
+     * Get the discount of the items in the cart.
+     *
+     * @return float
+     */
+    public function otherFeeFloat()
+    {
+        return $this->otherFee;
+    }
+
+    /**
+     * Get the discount of the items in the cart.
+     *
+     * @return float
+     */
+    public function shippingFeeFloat()
+    {
+        return $this->shippingFee;
     }
 
     /**
@@ -620,6 +654,16 @@ class Cart
                 $item->setDiscountRate($this->discount);
             });
         }
+    }
+
+    public function setOtherFee($otherFee)
+    {
+        $this->otherFee = $otherFee;
+    }
+
+    public function setShippingFee($shippingFee)
+    {
+        $this->shippingFee = $shippingFee;
     }
 
     /**
