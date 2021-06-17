@@ -348,7 +348,7 @@ class Cart
     {
         return $this->getContent()->reduce(function ($total, CartItem $cartItem) {
                 return $total + $cartItem->total;
-            }, 0) - $this->shippingFee - $this->otherFee;
+            }, 0) - $this->shippingFeeFloat() - $this->otherFeeFloat();
     }
 
     /**
