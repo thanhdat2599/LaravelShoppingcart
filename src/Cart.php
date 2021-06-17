@@ -42,6 +42,8 @@ class Cart
      */
     private $instance;
 
+    private $instanceExtra;
+
     /**
      * Holds the creation date of the cart.
      *
@@ -95,7 +97,6 @@ class Cart
         $this->session = $session;
         $this->events = $events;
         $this->taxRate = config('cart.tax');
-
         $this->instance(self::DEFAULT_INSTANCE);
     }
 
@@ -109,14 +110,13 @@ class Cart
     public function instance($instance = null)
     {
         $instance = $instance ?: self::DEFAULT_INSTANCE;
-
         if ($instance instanceof InstanceIdentifier) {
             $this->discount = $instance->getInstanceGlobalDiscount();
             $instance = $instance->getInstanceIdentifier();
         }
 
         $this->instance = 'cart.' . $instance;
-
+        $this->instanceExtra = 'cart.' . 'extra';
         return $this;
     }
 
@@ -434,7 +434,10 @@ class Cart
      */
     public function otherFeeFloat()
     {
-        return $this->otherFee;
+        if ($this->session->has($this->instanceExtra)) {
+            $this->session->get($this->instanceExtra);
+        }
+        return 0;
     }
 
     /**
@@ -659,6 +662,9 @@ class Cart
     public function setOtherFee($otherFee)
     {
         $this->otherFee = $otherFee;
+        if ($this->session->has($this->instanceExtra)) {
+            $this->session->put($this->instanceExtra, $otherFee);
+        }
     }
 
     public function setShippingFee($shippingFee)
