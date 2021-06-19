@@ -288,6 +288,8 @@ class Cart
     public function destroy()
     {
         $this->session->remove($this->instance);
+        $this->session->remove($this->instanceShippingFee);
+        $this->session->remove($this->instanceOtherFee);
     }
 
     /**
