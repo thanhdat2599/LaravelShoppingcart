@@ -74,20 +74,6 @@ class Cart
     private $taxRate = 0;
 
     /**
-     * Defines the other fee.
-     *
-     * @var float
-     */
-    private $otherFee = 0;
-
-    /**
-     * Defines the shipping fee.
-     *
-     * @var float
-     */
-    private $shippingFee = 0;
-
-    /**
      * Cart constructor.
      *
      * @param \Illuminate\Session\SessionManager $session
@@ -436,7 +422,10 @@ class Cart
      */
     public function otherFeeFloat()
     {
-        return $this->session->get($this->instanceOtherFee);
+        if ($this->session->has($this->instanceOtherFee)) {
+            return $this->session->get($this->instanceOtherFee);
+        }
+        return 0;
     }
 
     /**
@@ -446,7 +435,10 @@ class Cart
      */
     public function shippingFeeFloat()
     {
-        return $this->shippingFee;
+        if ($this->session->has($this->instanceShippingFee)) {
+            return $this->session->get($this->instanceShippingFee);
+        }
+        return 0;
     }
 
     /**
@@ -660,14 +652,12 @@ class Cart
 
     public function setOtherFee($otherFee)
     {
-        $this->otherFee = $otherFee;
         $this->session->put($this->instanceOtherFee, $otherFee);
     }
 
     public function setShippingFee($shippingFee)
     {
-        $this->shippingFee = $shippingFee;
-        $this->session->put($this->instanceShippingFees, $shippingFee);
+        $this->session->put($this->instanceShippingFee, $shippingFee);
     }
 
     /**
